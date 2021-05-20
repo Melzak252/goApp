@@ -9,12 +9,25 @@ import (
 
 func handlerGET(w http.ResponseWriter, r *http.Request) {
 
+	w.Header().Set("Content-Type", "text/html; charset=utf-8")
+
+	html, err := ioutil.ReadFile("home.html")
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	_, err = w.Write(html)
+	if err != nil {
+		log.Fatal(err)
+	}
+
 	files, err := ioutil.ReadDir("./files")
 	if err != nil {
 		log.Fatal(err)
 	}
+
 	for _, f := range files {
-		fmt.Fprintln(w, f.Name())
+		fmt.Fprintln(w, f.Name()+"<br>")
 	}
 }
 
